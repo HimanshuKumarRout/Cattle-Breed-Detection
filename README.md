@@ -129,7 +129,7 @@ pip install -r requirements.txt
 
 ---
 
-## 📤 Pushing to GitHub
+## 📤 Initializing Repository & Pushing to GitHub (Project Owner)
 
 To link this local project to your GitHub repository and push your initial commit, run:
 
@@ -143,3 +143,58 @@ git branch -M main
 # 3. Push to GitHub
 git push -u origin main
 ```
+
+---
+
+## 🍴 Team Forking & Contribution Workflow (For Team Members)
+
+Team members contributing via GitHub forks can follow these steps:
+
+### 1. Fork the Repository
+1. Navigate to the main repository: `https://github.com/MAIN_OWNER/Cattle-Breed-Classifier`
+2. Click the **Fork** button (top-right) to create your personal copy (`https://github.com/YOUR_USERNAME/Cattle-Breed-Classifier`).
+
+### 2. Clone Your Fork & Add Upstream Remote
+```bash
+# Clone your fork to your machine
+git clone https://github.com/YOUR_USERNAME/Cattle-Breed-Classifier.git
+cd "Cattle Breed Classifier"
+
+# Add the main team repository as 'upstream' remote
+git remote add upstream https://github.com/MAIN_OWNER/Cattle-Breed-Classifier.git
+```
+
+### 3. Create a Feature Branch
+```bash
+# Sync local main with main repo
+git checkout main
+git fetch upstream
+git merge upstream/main
+
+# Create and switch to a new feature branch
+git checkout -b feature/your-feature-name
+```
+
+### 4. Commit Changes & Push to Your Fork
+```bash
+# Stage and commit your work
+git add .
+git commit -m "feat(module): description of changes made"
+
+# Push the branch to your fork on GitHub
+git push -u origin feature/your-feature-name
+```
+
+### 5. Open a Pull Request (PR)
+1. Go to your fork on GitHub: `https://github.com/YOUR_USERNAME/Cattle-Breed-Classifier`
+2. Click **Compare & pull request**.
+3. Describe your implementation and click **Create pull request** for team review.
+
+### 6. Keeping Your Local Branch & Fork Synced
+To pull the latest updates added by teammates into your local copy:
+```bash
+git checkout main
+git pull upstream main
+git push origin main
+```
+
