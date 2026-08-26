@@ -65,8 +65,6 @@ source .venv/bin/activate
 # Install dependencies
 pip install -r requirements.txt
 
-# Copy environment settings
-cp .env.example .env
 
 # Run the backend development server
 uvicorn app.main:app --reload --port 8000
@@ -83,9 +81,6 @@ cd frontend
 
 # Install Node.js dependencies
 npm install
-
-# Copy environment settings
-cp .env.example .env
 
 # Start the Vite development server
 npm run dev
@@ -117,10 +112,7 @@ pip install -r requirements.txt
    - `feature/<feature-name>`: New features (e.g., `feature/image-upload-ui`, `feature/resnet-model`).
    - `bugfix/<fix-name>`: Bug fixes (e.g., `bugfix/cors-headers`).
 
-2. **Environment Files**:
-   - Never commit `.env` or sensitive credentials to Git. Always update `.env.example` when adding new configuration variables.
-
-3. **Model Weights & Datasets**:
+2. **Model Weights & Datasets**:
    - Model weights (`*.pth`, `*.pt`) and raw dataset images are excluded from Git via `.gitignore` to prevent repository bloat.
 
 ---
