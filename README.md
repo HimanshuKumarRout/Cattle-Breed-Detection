@@ -123,7 +123,7 @@ To link this local project to your GitHub repository and push your initial commi
 
 ```bash
 # 1. Add your GitHub repository as remote URL
-git remote add origin https://github.com/YOUR_USERNAME/YOUR_REPOSITORY_NAME.git
+git remote add origin https://github.com/HimanshuKumarRout/Cattle-Breed-Detection.git
 
 # 2. Rename branch to main (if not already set)
 git branch -M main
@@ -139,17 +139,17 @@ git push -u origin main
 Team members contributing via GitHub forks can follow these steps:
 
 ### 1. Fork the Repository
-1. Navigate to the main repository: `https://github.com/MAIN_OWNER/Cattle-Breed-Classifier`
-2. Click the **Fork** button (top-right) to create your personal copy (`https://github.com/YOUR_USERNAME/Cattle-Breed-Classifier`).
+1. Navigate to the main repository: `https://github.com/HimanshuKumarRout/Cattle-Breed-Detection`
+2. Click the **Fork** button (top-right) to create your personal copy (`https://github.com/YOUR_USERNAME/Cattle-Breed-Detection`).
 
 ### 2. Clone Your Fork & Add Upstream Remote
 ```bash
 # Clone your fork to your machine
-git clone https://github.com/YOUR_USERNAME/Cattle-Breed-Classifier.git
-cd "Cattle Breed Classifier"
+git clone https://github.com/YOUR_USERNAME/Cattle-Breed-Detection.git
+cd "Cattle Breed Detection"
 
 # Add the main team repository as 'upstream' remote
-git remote add upstream https://github.com/MAIN_OWNER/Cattle-Breed-Classifier.git
+git remote add upstream https://github.com/HimanshuKumarRout/Cattle-Breed-Detection.git
 ```
 
 ### 3. Create a Feature Branch
@@ -174,7 +174,7 @@ git push -u origin feature/your-feature-name
 ```
 
 ### 5. Open a Pull Request (PR)
-1. Go to your fork on GitHub: `https://github.com/YOUR_USERNAME/Cattle-Breed-Classifier`
+1. Go to your fork on GitHub: `https://github.com/YOUR_USERNAME/Cattle-Breed-Detection`
 2. Click **Compare & pull request**.
 3. Describe your implementation and click **Create pull request** for team review.
 
