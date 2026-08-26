@@ -20,20 +20,17 @@ Cattle Breed Classifier/
 ├── frontend/                 # React / Vite Web Frontend Application
 │   ├── public/               # Static assets
 │   ├── src/                  # React components & UI logic
-│   ├── .env.example          # Frontend environment variable template
 │   ├── index.html            # Web app entry HTML
 │   └── package.json          # Node.js dependencies and scripts
 ├── ml/                       # Machine Learning Pipeline
 │   ├── artifacts/
 │   │   ├── checkpoints/      # Trained model weights (.pth files - git ignored)
 │   │   └── reports/          # Metrics, confusion matrices, figures
-│   ├── data/                 # Raw and processed datasets (git ignored)
+│   ├── data/                 # Raw and processed datasets 
 │   ├── notebooks/            # Jupyter notebooks for experimentation
 │   ├── src/                  # Model architectures, training scripts, data loaders
 │   └── requirements.txt      # Python dependencies for ML training
-├── .env.example              # Root environment template
-├── .gitignore                # Rules for excluding cache, logs, virtual environments, and weights
-├── LICENSE                   # Project license (MIT)
+├── .gitignore                # Rules for excluding cache, logs, virtual environments, weights
 └── README.md                 # Project documentation and team collaboration guide
 ```
 
