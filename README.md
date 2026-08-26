@@ -15,7 +15,6 @@ Cattle Breed Classifier/
 │   │   ├── models/           # Database / ORM models
 │   │   ├── schemas/          # Pydantic request/response schemas
 │   │   └── services/         # Business logic and ML inference wrappers
-│   ├── .env.example          # Backend environment variable template
 │   ├── main.py               # FastAPI entry point
 │   └── requirements.txt      # Python dependencies for Backend
 ├── frontend/                 # React / Vite Web Frontend Application
