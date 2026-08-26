@@ -2,6 +2,9 @@
 
 A modular project template for classifying cattle breeds using Deep Learning (PyTorch), a FastAPI REST backend, and a React web frontend.
 
+> [!IMPORTANT]
+> **Team Notice**: All team members should conduct active work in the `development` branch (or feature branches targeting `development`). Direct commits to `main` should be reserved for stable releases.
+
 ---
 
 ## 📁 Repository Structure
@@ -108,8 +111,9 @@ pip install -r requirements.txt
 ## 👥 Team Workflow & Git Guidelines
 
 1. **Branching**:
-   - `main`: Production-ready code.
-   - `feature/<feature-name>`: New features (e.g., `feature/image-upload-ui`, `feature/resnet-model`).
+   - `development`: Primary active development branch. **All team members should work here or branch off of this.**
+   - `main`: Production-ready, stable releases.
+   - `feature/<feature-name>`: New features created off `development` (e.g., `feature/image-upload-ui`, `feature/resnet-model`).
    - `bugfix/<fix-name>`: Bug fixes (e.g., `bugfix/cors-headers`).
 
 2. **Model Weights & Datasets**:
