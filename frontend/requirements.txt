@@ -1,0 +1,18 @@
+# Node.js & Package Manager Prerequisites
+Node.js >= 18.0.0
+npm >= 9.0.0
+
+# Frontend Dependencies
+react >= 18.2.0
+react-dom >= 18.2.0
+react-router-dom >= 7.1.14
+lucide-react >= 0.344.0
+
+# Development Dependencies
+vite >= 5.1.6
+@vitejs/plugin-react >= 4.2.1
+tailwindcss >= 3.4.1
+postcss >= 8.4.35
+autoprefixer >= 10.4.18
+@types/react >= 18.2.64
+@types/react-dom >= 18.2.21
