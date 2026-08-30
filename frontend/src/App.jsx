@@ -18,6 +18,7 @@ function AppContent() {
           <NavLink to="/" className="navbar-brand">
             🐄 <span>{t('nav.brand')}</span>
           </NavLink>
+
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
             <ul className="nav-links">
               <li><NavLink to="/" end>{t('nav.home')}</NavLink></li>
@@ -25,6 +26,7 @@ function AppContent() {
               <li><NavLink to="/breeds">{t('nav.breeds')}</NavLink></li>
               <li><NavLink to="/about">{t('nav.about')}</NavLink></li>
             </ul>
+
             <ThemeToggle />
             <LanguageSelector />
           </div>
