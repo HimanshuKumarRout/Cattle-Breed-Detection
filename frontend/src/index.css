@@ -13,6 +13,7 @@
   --color-bg-card-hover: #1f2b3d;
   --color-bg-glass: rgba(26, 35, 50, 0.7);
   --color-bg-input: #0d1321;
+  --color-nav-bg: rgba(10, 14, 23, 0.85);
 
   /* Accent – warm amber/gold */
   --color-accent: #f59e0b;
@@ -36,9 +37,24 @@
   --color-border-accent: rgba(245, 158, 11, 0.3);
 
   /* Gradients */
-  --gradient-hero: linear-gradient(135deg, #0a0e17 0%, #1a2332 50%, #0f172a 100%);
-  --gradient-accent: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
-  --gradient-card: linear-gradient(145deg, rgba(26, 35, 50, 0.8), rgba(15, 23, 42, 0.6));
+  --gradient-hero: linear-gradient(
+    135deg,
+    #0a0e17 0%,
+    #1a2332 50%,
+    #0f172a 100%
+  );
+
+  --gradient-accent: linear-gradient(
+    135deg,
+    #f59e0b 0%,
+    #d97706 100%
+  );
+
+  --gradient-card: linear-gradient(
+    145deg,
+    rgba(26, 35, 50, 0.8),
+    rgba(15, 23, 42, 0.6)
+  );
 
   /* Shadows */
   --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.3);
@@ -91,7 +107,12 @@ body {
 
 /* ============ TYPOGRAPHY ============ */
 
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   font-family: var(--font-heading);
   font-weight: 700;
   line-height: 1.2;
@@ -103,7 +124,9 @@ a {
   transition: color var(--transition-fast);
 }
 
-a:hover { color: var(--color-accent-light); }
+a:hover {
+  color: var(--color-accent-light);
+}
 
 /* ============ HEADER/NAV ============ */
 
@@ -111,7 +134,7 @@ a:hover { color: var(--color-accent-light); }
   position: sticky;
   top: 0;
   z-index: 100;
-  background: rgba(10, 14, 23, 0.85);
+  background: var(--color-nav-bg);
   backdrop-filter: blur(16px) saturate(180%);
   border-bottom: 1px solid var(--color-border);
   padding: 0 2rem;
@@ -165,6 +188,7 @@ a:hover { color: var(--color-accent-light); }
 }
 
 /* Language Selector */
+
 .language-selector-wrapper {
   position: relative;
   margin-left: 12px;
@@ -174,7 +198,7 @@ a:hover { color: var(--color-accent-light); }
   display: flex;
   align-items: center;
   gap: 8px;
-  background: rgba(255, 255, 255, 0.05);
+  background: var(--color-bg-card);
   border: 1px solid var(--color-border);
   color: var(--color-text-primary);
   padding: 6px 14px;
@@ -386,7 +410,9 @@ a:hover { color: var(--color-accent-light); }
 }
 
 @media (max-width: 768px) {
-  .predict-layout { grid-template-columns: 1fr; }
+  .predict-layout {
+    grid-template-columns: 1fr;
+  }
 }
 
 .input-tabs {
@@ -417,6 +443,7 @@ a:hover { color: var(--color-accent-light); }
 }
 
 /* Upload zone */
+
 .upload-zone {
   border: 2px dashed var(--color-border);
   border-radius: var(--radius-lg);
@@ -433,11 +460,23 @@ a:hover { color: var(--color-accent-light); }
   background: var(--color-accent-glow);
 }
 
-.upload-zone .icon { font-size: 3rem; margin-bottom: 1rem; }
-.upload-zone p { color: var(--color-text-secondary); }
-.upload-zone .hint { font-size: 0.8rem; color: var(--color-text-muted); margin-top: 0.5rem; }
+.upload-zone .icon {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+
+.upload-zone p {
+  color: var(--color-text-secondary);
+}
+
+.upload-zone .hint {
+  font-size: 0.8rem;
+  color: var(--color-text-muted);
+  margin-top: 0.5rem;
+}
 
 /* Image preview */
+
 .image-preview {
   position: relative;
   border-radius: var(--radius-lg);
@@ -461,7 +500,7 @@ a:hover { color: var(--color-accent-light); }
   height: 32px;
   border-radius: 50%;
   border: none;
-  background: rgba(0,0,0,0.7);
+  background: rgba(0, 0, 0, 0.7);
   color: #fff;
   font-size: 1rem;
   cursor: pointer;
@@ -471,6 +510,7 @@ a:hover { color: var(--color-accent-light); }
 }
 
 /* URL Input */
+
 .url-input-group {
   display: flex;
   gap: 8px;
@@ -494,6 +534,7 @@ a:hover { color: var(--color-accent-light); }
 }
 
 /* Buttons */
+
 .btn-primary {
   padding: 12px 28px;
   background: var(--gradient-accent);
@@ -546,8 +587,15 @@ a:hover { color: var(--color-accent-light); }
 }
 
 @keyframes slideIn {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .result-header {
@@ -573,11 +621,23 @@ a:hover { color: var(--color-accent-light); }
   font-weight: 600;
 }
 
-.result-badge.high { background: rgba(16, 185, 129, 0.15); color: var(--color-success); }
-.result-badge.medium { background: rgba(245, 158, 11, 0.15); color: var(--color-warning); }
-.result-badge.low { background: rgba(239, 68, 68, 0.15); color: var(--color-error); }
+.result-badge.high {
+  background: rgba(16, 185, 129, 0.15);
+  color: var(--color-success);
+}
+
+.result-badge.medium {
+  background: rgba(245, 158, 11, 0.15);
+  color: var(--color-warning);
+}
+
+.result-badge.low {
+  background: rgba(239, 68, 68, 0.15);
+  color: var(--color-error);
+}
 
 /* Confidence bar */
+
 .confidence-bar-container {
   margin-bottom: 1.5rem;
 }
@@ -605,6 +665,7 @@ a:hover { color: var(--color-accent-light); }
 }
 
 /* Top-K predictions */
+
 .topk-list {
   margin-bottom: 1.5rem;
 }
@@ -617,7 +678,9 @@ a:hover { color: var(--color-accent-light); }
   border-bottom: 1px solid var(--color-border);
 }
 
-.topk-item:last-child { border-bottom: none; }
+.topk-item:last-child {
+  border-bottom: none;
+}
 
 .topk-rank {
   width: 28px;
@@ -633,12 +696,23 @@ a:hover { color: var(--color-accent-light); }
   margin-right: 12px;
 }
 
-.topk-rank.first { background: var(--color-accent-glow); color: var(--color-accent); }
+.topk-rank.first {
+  background: var(--color-accent-glow);
+  color: var(--color-accent);
+}
 
-.topk-name { flex: 1; font-weight: 500; }
-.topk-conf { color: var(--color-text-secondary); font-size: 0.9rem; }
+.topk-name {
+  flex: 1;
+  font-weight: 500;
+}
+
+.topk-conf {
+  color: var(--color-text-secondary);
+  font-size: 0.9rem;
+}
 
 /* Breed info grid */
+
 .breed-info-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -665,6 +739,7 @@ a:hover { color: var(--color-accent-light); }
 }
 
 /* Warning */
+
 .prediction-warning {
   display: flex;
   align-items: flex-start;
@@ -702,7 +777,7 @@ a:hover { color: var(--color-accent-light); }
 }
 
 .tag-chip {
-  background: rgba(26, 35, 50, 0.7);
+  background: var(--color-bg-card);
   border: 1px solid var(--color-border);
   color: var(--color-text-secondary);
   padding: 5px 12px;
@@ -1005,15 +1080,21 @@ a:hover { color: var(--color-accent-light); }
   font-size: 0.85rem;
 }
 
-.breed-card-detail .label { color: var(--color-text-muted); }
-.breed-card-detail .value { font-weight: 500; }
+.breed-card-detail .label {
+  color: var(--color-text-muted);
+}
+
+.breed-card-detail .value {
+  font-weight: 500;
+}
 
 .region-highlight {
   color: var(--color-accent-light);
 }
 
 .badge-use {
-  background: rgba(255, 255, 255, 0.05);
+  background: var(--color-bg-input);
+  border: 1px solid var(--color-border);
   padding: 2px 8px;
   border-radius: 6px;
   font-size: 0.8rem;
@@ -1022,7 +1103,7 @@ a:hover { color: var(--color-accent-light); }
 .milk-yield-section {
   margin: 6px 0;
   padding: 6px 8px;
-  background: rgba(10, 14, 23, 0.5);
+  background: var(--color-bg-input);
   border-radius: var(--radius-sm);
   border: 1px solid var(--color-border);
 }
@@ -1204,13 +1285,25 @@ a:hover { color: var(--color-accent-light); }
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
 }
 
 @keyframes slideUp {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 /* ============ CAMERA ============ */
@@ -1279,7 +1372,11 @@ a:hover { color: var(--color-accent-light); }
   animation: spin 0.8s linear infinite;
 }
 
-@keyframes spin { to { transform: rotate(360deg); } }
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
 
 /* ============ FOOTER ============ */
 
@@ -1292,7 +1389,9 @@ a:hover { color: var(--color-accent-light); }
   margin-top: auto;
 }
 
-.footer a { color: var(--color-accent); }
+.footer a {
+  color: var(--color-accent);
+}
 
 /* ============ ABOUT PAGE ============ */
 
@@ -1327,6 +1426,7 @@ a:hover { color: var(--color-accent-light); }
 }
 
 /* Image quality tips */
+
 .tips-box {
   background: rgba(59, 130, 246, 0.08);
   border: 1px solid rgba(59, 130, 246, 0.2);
@@ -1350,11 +1450,40 @@ a:hover { color: var(--color-accent-light); }
 /* ============ RESPONSIVE ============ */
 
 @media (max-width: 768px) {
-  .hero h1 { font-size: 2rem; }
-  .page { padding: 1rem; }
-  .breed-info-grid { grid-template-columns: 1fr; }
-  .navbar-inner { padding: 0; }
-  .nav-links a { padding: 8px 10px; font-size: 0.8rem; }
-  .features-grid { grid-template-columns: 1fr; }
-  .breeds-grid { grid-template-columns: 1fr; }
+  .hero h1 {
+    font-size: 2rem;
+  }
+
+  .page {
+    padding: 1rem;
+  }
+
+  .breed-info-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .navbar {
+    padding: 0 1rem;
+  }
+
+  .navbar-inner {
+    padding: 0;
+  }
+
+  .nav-links {
+    gap: 2px;
+  }
+
+  .nav-links a {
+    padding: 8px 10px;
+    font-size: 0.8rem;
+  }
+
+  .features-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .breeds-grid {
+    grid-template-columns: 1fr;
+  }
 }
