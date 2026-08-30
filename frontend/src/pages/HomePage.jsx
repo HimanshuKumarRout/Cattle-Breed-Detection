@@ -8,7 +8,7 @@ function HomePage() {
                     Identify Your <span className="accent">Cattle Breed</span> in Seconds
                 </h1>
                 <p>
-                    AI-powered breed classification for 26 indigenous Indian cattle and buffalo breeds.
+                    AI-powered breed classification & metadata explorer for 34 indigenous Indian cattle and buffalo breeds.
                     Upload a photo, point your camera, or paste a URL — get instant results.
                 </p>
                 <Link to="/predict">
@@ -26,8 +26,8 @@ function HomePage() {
                 </div>
                 <div className="card feature-card">
                     <div className="feature-icon">🧠</div>
-                    <h3>EfficientNet-B3 Model</h3>
-                    <p>Powered by EfficientNet-B3 transfer learning for highly accurate breed classification and fast inference.</p>
+                    <h3>Deep Learning Models</h3>
+                    <p>Trained and compared 4 architectures — MLP, CNN, ResNet50, and Vision Transformer — to find the best.</p>
                 </div>
                 <div className="card feature-card">
                     <div className="feature-icon">📋</div>
@@ -46,7 +46,7 @@ function HomePage() {
                 </div>
                 <div className="card feature-card">
                     <div className="feature-icon">🐃</div>
-                    <h3>26 Breeds</h3>
+                    <h3>34 Breeds</h3>
                     <p>Covers major indigenous cow and buffalo breeds from across India with verified metadata.</p>
                 </div>
             </section>

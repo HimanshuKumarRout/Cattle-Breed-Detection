@@ -63,6 +63,10 @@ export async function getBreeds(options = {}) {
 
   const response = await fetch(`${API_BASE_URL}/breeds?${params}`);
   if (!response.ok) throw new Error('Failed to fetch breeds');
+  const contentType = response.headers.get('content-type');
+  if (contentType && contentType.includes('text/html')) {
+    throw new Error('API returned HTML instead of JSON (Endpoint not found)');
+  }
   return response.json();
 }
 
