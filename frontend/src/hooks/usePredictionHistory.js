@@ -7,7 +7,10 @@ export function usePredictionHistory() {
     const [history, setHistory] = useState(() => {
         try {
             const stored = localStorage.getItem(HISTORY_KEY);
-            return stored ? JSON.parse(stored) : [];
+            const parsed = stored ? JSON.parse(stored) : [];
+            return Array.isArray(parsed)
+                ? parsed.filter(entry => entry && typeof entry === 'object' && entry.predictedBreed)
+                : [];
         } catch {
             return [];
         }
@@ -32,10 +35,20 @@ export function usePredictionHistory() {
         });
     }, []);
 
+    const removePrediction = useCallback((id) => {
+        setHistory(prev => {
+            const updated = prev.filter(entry => entry.id !== id);
+            try {
+                localStorage.setItem(HISTORY_KEY, JSON.stringify(updated));
+            } catch { /* storage error */ }
+            return updated;
+        });
+    }, []);
+
     const clearHistory = useCallback(() => {
         setHistory([]);
         localStorage.removeItem(HISTORY_KEY);
     }, []);
 
-    return { history, addPrediction, clearHistory };
+    return { history, addPrediction, clearHistory, removePrediction };
 }
