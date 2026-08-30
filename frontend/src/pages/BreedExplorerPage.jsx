@@ -1,5 +1,6 @@
 import { useState, useEffect, useMemo } from 'react';
 import { getBreeds } from '../services/api';
+import { useLanguage } from '../context/LanguageContext';
 
 // Static breed data with min/max milk yield numbers for precise filtering
 const STATIC_BREEDS = [
@@ -60,7 +61,59 @@ const POPULAR_USES = [
     'Dwarf Cattle'
 ];
 
+const getUseLabel = (use, t) => {
+    if (use === 'Dairy') return t('common.dairy');
+    if (use === 'Draught') return t('common.draught');
+    if (use === 'Dual Purpose') return t('common.dualPurpose');
+    if (use === 'Dwarf Cattle') return t('common.dwarfCattle');
+    return use;
+};
+
+const formatBreedName = (name, t) => {
+    if (!name) return '';
+    if (name.endsWith(' Cow')) {
+        return `${name.replace(/ Cow$/, '')} ${t('common.cow')}`;
+    }
+    if (name.endsWith(' Buffalo')) {
+        return `${name.replace(/ Buffalo$/, '')} ${t('common.buffalo')}`;
+    }
+    return name;
+};
+
+const formatRegion = (region, t) => {
+    if (!region) return '';
+    let res = region;
+    res = res.replace(', India', t('common.inIndia'));
+    POPULAR_STATES.forEach(st => {
+        res = res.replace(st, t(`states.${st}`, st));
+    });
+    return res;
+};
+
+const formatFoodReq = (req, t, formatNum) => {
+    if (!req) return '';
+    const res = req.replace('kg/day', t('common.kgPerDay'));
+    return formatNum ? formatNum(res) : res;
+};
+
+const formatExpenditure = (exp, t, formatNum) => {
+    if (!exp) return '';
+    const res = exp.replace('/day', t('common.perDay'));
+    return formatNum ? formatNum(res) : res;
+};
+
+const getBreedFoodItems = (breed, t) => {
+    if (!breed) return '';
+    return t(`breedData.${breed.breed_id}.food_items`, breed.food_items);
+};
+
+const getBreedDescription = (breed, t) => {
+    if (!breed) return '';
+    return t(`breedData.${breed.breed_id}.description`, breed.description);
+};
+
 function BreedExplorerPage() {
+    const { t, formatNum } = useLanguage();
     const [breeds, setBreeds] = useState(STATIC_BREEDS);
     const [searchTerm, setSearchTerm] = useState('');
     const [filterType, setFilterType] = useState('');
@@ -196,50 +249,50 @@ function BreedExplorerPage() {
         <div className="page">
             <div className="explorer-header">
                 <div>
-                    <h2 className="section-title">Breed Explorer & Search</h2>
+                    <h2 className="section-title">{t('breeds.title')}</h2>
                     <p className="section-subtitle">
-                        Comprehensive search across 34 indigenous cattle and buffalo breeds by Milk Yield (Liters/day), Region, Purpose, & Type.
+                        {t('breeds.subtitle')}
                     </p>
                 </div>
             </div>
 
             {/* Quick Preset Filter Chips */}
             <div className="quick-tags-bar">
-                <span className="quick-tags-title">Quick Search:</span>
+                <span className="quick-tags-title">{t('breeds.quickSearch')}</span>
                 <button
                     className={`tag-chip ${milkPreset === 'high' ? 'active' : ''}`}
                     onClick={() => setMilkPreset(milkPreset === 'high' ? 'all' : 'high')}>
-                    🥛 High Milk Yield (&gt;8 L/day)
+                    🥛 {t('breeds.presetHigh')}
                 </button>
                 <button
                     className={`tag-chip ${filterType === 'Cow' ? 'active' : ''}`}
                     onClick={() => setFilterType(filterType === 'Cow' ? '' : 'Cow')}>
-                    🐄 Cows
+                    {t('breeds.typeCow')}
                 </button>
                 <button
                     className={`tag-chip ${filterType === 'Buffalo' ? 'active' : ''}`}
                     onClick={() => setFilterType(filterType === 'Buffalo' ? '' : 'Buffalo')}>
-                    🐃 Buffaloes
+                    {t('breeds.typeBuffalo')}
                 </button>
                 <button
                     className={`tag-chip ${filterUse === 'Dairy' ? 'active' : ''}`}
                     onClick={() => setFilterUse(filterUse === 'Dairy' ? '' : 'Dairy')}>
-                    🥛 Dairy Breeds
+                    🥛 {t('common.dairy')}
                 </button>
                 <button
                     className={`tag-chip ${filterUse === 'Draught' ? 'active' : ''}`}
                     onClick={() => setFilterUse(filterUse === 'Draught' ? '' : 'Draught')}>
-                    🚜 Draught Breeds
+                    🚜 {t('common.draught')}
                 </button>
                 <button
                     className={`tag-chip ${filterRegion === 'Gujarat' ? 'active' : ''}`}
                     onClick={() => setFilterRegion(filterRegion === 'Gujarat' ? '' : 'Gujarat')}>
-                    🌾 Gujarat
+                    🌾 {t('states.Gujarat', 'Gujarat')}
                 </button>
                 <button
                     className={`tag-chip ${filterRegion === 'Tamil Nadu' ? 'active' : ''}`}
                     onClick={() => setFilterRegion(filterRegion === 'Tamil Nadu' ? '' : 'Tamil Nadu')}>
-                    🌴 Tamil Nadu
+                    🌴 {t('states.Tamil Nadu', 'Tamil Nadu')}
                 </button>
             </div>
 
@@ -251,7 +304,7 @@ function BreedExplorerPage() {
                         <span className="search-icon">🔍</span>
                         <input
                             type="text"
-                            placeholder="Search breed name, state, characteristics, description..."
+                            placeholder={t('breeds.searchPlaceholder')}
                             value={searchTerm}
                             onChange={(e) => setSearchTerm(e.target.value)}
                             className="search-input"
@@ -267,9 +320,9 @@ function BreedExplorerPage() {
                         onChange={(e) => setFilterType(e.target.value)}
                         className="filter-select"
                     >
-                        <option value="">All Animal Types</option>
-                        <option value="Cow">🐄 Cow Only</option>
-                        <option value="Buffalo">🐃 Buffalo Only</option>
+                        <option value="">{t('breeds.allTypes')}</option>
+                        <option value="Cow">{t('breeds.typeCow')}</option>
+                        <option value="Buffalo">{t('breeds.typeBuffalo')}</option>
                     </select>
 
                     {/* Region / State */}
@@ -278,9 +331,9 @@ function BreedExplorerPage() {
                         onChange={(e) => setFilterRegion(e.target.value)}
                         className="filter-select"
                     >
-                        <option value="">All Regions / States</option>
+                        <option value="">{t('breeds.allRegions')}</option>
                         {POPULAR_STATES.map(state => (
-                            <option key={state} value={state}>📍 {state}</option>
+                            <option key={state} value={state}>📍 {t(`states.${state}`, state)}</option>
                         ))}
                     </select>
 
@@ -290,9 +343,9 @@ function BreedExplorerPage() {
                         onChange={(e) => setFilterUse(e.target.value)}
                         className="filter-select"
                     >
-                        <option value="">All Uses / Purposes</option>
+                        <option value="">{t('breeds.allUses')}</option>
                         {POPULAR_USES.map(use => (
-                            <option key={use} value={use}>{use}</option>
+                            <option key={use} value={use}>{getUseLabel(use, t)}</option>
                         ))}
                     </select>
                 </div>
@@ -300,23 +353,23 @@ function BreedExplorerPage() {
                 <div className="filters-row secondary-row">
                     {/* Milk Yield (Liters/day) Filter */}
                     <div className="filter-group">
-                        <label className="filter-label">Milk Yield (Liters/day):</label>
+                        <label className="filter-label">{t('breeds.milkYieldLabel')}</label>
                         <div className="preset-button-group">
                             <button
                                 className={`preset-btn ${milkPreset === 'all' ? 'active' : ''}`}
-                                onClick={() => setMilkPreset('all')}>All</button>
+                                onClick={() => setMilkPreset('all')}>{t('breeds.presetAll')}</button>
                             <button
                                 className={`preset-btn ${milkPreset === 'high' ? 'active' : ''}`}
-                                onClick={() => setMilkPreset('high')}>High (&gt;8L)</button>
+                                onClick={() => setMilkPreset('high')}>{t('breeds.presetHigh')}</button>
                             <button
                                 className={`preset-btn ${milkPreset === 'med' ? 'active' : ''}`}
-                                onClick={() => setMilkPreset('med')}>Med (4-8L)</button>
+                                onClick={() => setMilkPreset('med')}>{t('breeds.presetMed')}</button>
                             <button
                                 className={`preset-btn ${milkPreset === 'low' ? 'active' : ''}`}
-                                onClick={() => setMilkPreset('low')}>Low (&lt;4L)</button>
+                                onClick={() => setMilkPreset('low')}>{t('breeds.presetLow')}</button>
                             <button
                                 className={`preset-btn ${milkPreset === 'custom' ? 'active' : ''}`}
-                                onClick={() => setMilkPreset('custom')}>Custom Range</button>
+                                onClick={() => setMilkPreset('custom')}>{t('breeds.presetCustom')}</button>
                         </div>
                     </div>
 
@@ -346,17 +399,17 @@ function BreedExplorerPage() {
 
                     {/* Sorting Dropdown */}
                     <div className="filter-group sort-group" style={{ marginLeft: 'auto' }}>
-                        <label className="filter-label">Sort By:</label>
+                        <label className="filter-label">{t('breeds.sortByLabel')}</label>
                         <select
                             value={sortBy}
                             onChange={(e) => setSortBy(e.target.value)}
                             className="filter-select sort-select"
                         >
-                            <option value="name_asc">Breed Name (A-Z)</option>
-                            <option value="name_desc">Breed Name (Z-A)</option>
-                            <option value="milk_desc">Highest Milk Yield 🥛</option>
-                            <option value="milk_asc">Lowest Milk Yield</option>
-                            <option value="lifespan_desc">Longest Lifespan</option>
+                            <option value="name_asc">{t('breeds.sortNameAsc')}</option>
+                            <option value="name_desc">{t('breeds.sortNameDesc')}</option>
+                            <option value="milk_desc">{t('breeds.sortMilkDesc')}</option>
+                            <option value="milk_asc">{t('breeds.sortMilkAsc')}</option>
+                            <option value="lifespan_desc">{t('breeds.sortLifespanDesc')}</option>
                         </select>
                     </div>
                 </div>
@@ -364,7 +417,7 @@ function BreedExplorerPage() {
                 {/* Active Filter Pills & Reset */}
                 {activeFilters.length > 0 && (
                     <div className="active-filters-bar">
-                        <span className="active-filters-title">Active Filters:</span>
+                        <span className="active-filters-title">{t('breeds.activeFilters')}</span>
                         {activeFilters.map(f => (
                             <span key={f.label} className="active-pill">
                                 {f.label}
@@ -372,7 +425,7 @@ function BreedExplorerPage() {
                             </span>
                         ))}
                         <button onClick={resetAllFilters} className="reset-filters-btn">
-                            Reset All Filters
+                            {t('breeds.resetFilters')}
                         </button>
                     </div>
                 )}
@@ -381,11 +434,11 @@ function BreedExplorerPage() {
             {/* Results Count Banner */}
             <div className="results-status-bar">
                 <span className="results-count">
-                    Showing <strong>{filteredAndSortedBreeds.length}</strong> of {breeds.length} breeds
+                    {t('breeds.showingText')} <strong>{formatNum(filteredAndSortedBreeds.length)}</strong> {t('breeds.ofText')} {formatNum(breeds.length)} {t('breeds.breedsText')}
                 </span>
                 {filteredAndSortedBreeds.length === 0 && (
                     <span className="no-results-hint">
-                        No breeds match your selected criteria. Try resetting or adjusting your search filters.
+                        {t('breeds.noResults')}
                     </span>
                 )}
             </div>
@@ -403,29 +456,29 @@ function BreedExplorerPage() {
                             onClick={() => setSelectedBreed(breed)}
                         >
                             <div className="breed-card-header">
-                                <span className="breed-card-name">{breed.breed_name}</span>
+                                <span className="breed-card-name">{formatBreedName(breed.breed_name, t)}</span>
                                 <span className={`breed-type-badge ${breed.animal_type.toLowerCase()}`}>
-                                    {breed.animal_type === 'Cow' ? '🐄 Cow' : '🐃 Buffalo'}
+                                    {breed.animal_type === 'Cow' ? `🐄 ${t('common.cow')}` : `🐃 ${t('common.buffalo')}`}
                                 </span>
                             </div>
 
                             <div className="breed-card-detail">
-                                <span className="label">📍 Region</span>
-                                <span className="value region-highlight">{breed.region}</span>
+                                <span className="label">{t('breeds.regionLabel')}</span>
+                                <span className="value region-highlight">{formatRegion(breed.region, t)}</span>
                             </div>
                             
                             <div className="breed-card-detail">
-                                <span className="label">🎯 Primary Use</span>
-                                <span className="value badge-use">{breed.primary_use}</span>
+                                <span className="label">{t('breeds.useLabel')}</span>
+                                <span className="value badge-use">{getUseLabel(breed.primary_use, t)}</span>
                             </div>
 
                             {breed.avg_milk_liters_per_day && (
                                 <div className="milk-yield-section">
                                     <div className="breed-card-detail milk-detail">
-                                        <span className="label">🥛 Milk Yield</span>
-                                        <span className="value milk-value">{breed.avg_milk_liters_per_day} L/day</span>
+                                        <span className="label">{t('breeds.milkLabel')}</span>
+                                        <span className="value milk-value">{formatNum(breed.avg_milk_liters_per_day)} {t('common.litersPerDay')}</span>
                                     </div>
-                                    <div className="yield-meter-bg" title={`${breed.avg_milk_liters_per_day} Liters/day`}>
+                                    <div className="yield-meter-bg" title={`${formatNum(breed.avg_milk_liters_per_day)} ${t('common.litersPerDayFull')}`}>
                                         <div
                                             className="yield-meter-fill"
                                             style={{ width: `${yieldPercentage}%` }}
@@ -436,40 +489,40 @@ function BreedExplorerPage() {
 
                             {breed.lifespan_years && (
                                 <div className="breed-card-detail">
-                                    <span className="label">⏳ Lifespan</span>
-                                    <span className="value">{breed.lifespan_years} years</span>
+                                    <span className="label">{t('breeds.lifespanLabel')}</span>
+                                    <span className="value">{formatNum(breed.lifespan_years)} {t('common.years')}</span>
                                 </div>
                             )}
 
                             {breed.daily_food_req && (
                                 <div className="breed-card-detail">
-                                    <span className="label">🌾 Daily Fodder</span>
-                                    <span className="value">{breed.daily_food_req}</span>
+                                    <span className="label">{t('breeds.fodderLabel')}</span>
+                                    <span className="value">{formatFoodReq(breed.daily_food_req, t, formatNum)}</span>
                                 </div>
                             )}
 
                             {breed.food_items && (
                                 <div className="breed-card-detail">
-                                    <span className="label">🥗 Diet Items</span>
-                                    <span className="value" title={breed.food_items} style={{ fontSize: '0.8rem', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', maxWidth: '160px' }}>{breed.food_items}</span>
+                                    <span className="label">{t('breeds.dietLabel')}</span>
+                                    <span className="value" title={getBreedFoodItems(breed, t)} style={{ fontSize: '0.8rem', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', maxWidth: '160px' }}>{getBreedFoodItems(breed, t)}</span>
                                 </div>
                             )}
 
                             {breed.daily_expenditure && (
                                 <div className="breed-card-detail">
-                                    <span className="label">💰 Daily Cost</span>
-                                    <span className="value">{breed.daily_expenditure}/day</span>
+                                    <span className="label">{t('breeds.costLabel')}</span>
+                                    <span className="value">{formatExpenditure(breed.daily_expenditure, t, formatNum)}</span>
                                 </div>
                             )}
 
                             {breed.description && (
                                 <p className="breed-card-description">
-                                    {breed.description}
+                                    {getBreedDescription(breed, t)}
                                 </p>
                             )}
 
                             <div className="card-footer-action">
-                                <span>Click to view full traits & details →</span>
+                                <span>{t('breeds.viewDetails')}</span>
                             </div>
                         </div>
                     );
@@ -485,47 +538,47 @@ function BreedExplorerPage() {
                         <div className="modal-header">
                             <div>
                                 <span className={`breed-type-badge ${selectedBreed.animal_type.toLowerCase()}`}>
-                                    {selectedBreed.animal_type === 'Cow' ? '🐄 Indigenous Cow' : '🐃 Water Buffalo'}
+                                    {selectedBreed.animal_type === 'Cow' ? `🐄 ${t('common.indigenousCow')}` : `🐃 ${t('common.waterBuffalo')}`}
                                 </span>
-                                <h2 className="modal-title">{selectedBreed.breed_name}</h2>
+                                <h2 className="modal-title">{formatBreedName(selectedBreed.breed_name, t)}</h2>
                             </div>
                         </div>
 
                         <div className="modal-body">
                             {selectedBreed.description && (
-                                <p className="modal-description">{selectedBreed.description}</p>
+                                <p className="modal-description">{getBreedDescription(selectedBreed, t)}</p>
                             )}
 
                             <div className="modal-stats-grid">
                                 <div className="modal-stat-box">
                                     <span className="stat-icon">🥛</span>
-                                    <span className="stat-label">Average Milk Yield</span>
-                                    <span className="stat-value">{selectedBreed.avg_milk_liters_per_day ? `${selectedBreed.avg_milk_liters_per_day} Liters / day` : 'N/A'}</span>
+                                    <span className="stat-label">{t('breeds.modalMilk')}</span>
+                                    <span className="stat-value">{selectedBreed.avg_milk_liters_per_day ? `${formatNum(selectedBreed.avg_milk_liters_per_day)} ${t('common.litersPerDayFull')}` : t('common.na')}</span>
                                 </div>
                                 <div className="modal-stat-box">
                                     <span className="stat-icon">📍</span>
-                                    <span className="stat-label">Native Region</span>
-                                    <span className="stat-value">{selectedBreed.region || 'N/A'}</span>
+                                    <span className="stat-label">{t('breeds.modalRegion')}</span>
+                                    <span className="stat-value">{formatRegion(selectedBreed.region, t) || t('common.na')}</span>
                                 </div>
                                 <div className="modal-stat-box">
                                     <span className="stat-icon">🚜</span>
-                                    <span className="stat-label">Primary Purpose</span>
-                                    <span className="stat-value">{selectedBreed.primary_use || 'N/A'}</span>
+                                    <span className="stat-label">{t('breeds.modalUse')}</span>
+                                    <span className="stat-value">{getUseLabel(selectedBreed.primary_use, t) || t('common.na')}</span>
                                 </div>
                                 <div className="modal-stat-box">
                                     <span className="stat-icon">⏳</span>
-                                    <span className="stat-label">Average Lifespan</span>
-                                    <span className="stat-value">{selectedBreed.lifespan_years ? `${selectedBreed.lifespan_years} Years` : 'N/A'}</span>
+                                    <span className="stat-label">{t('breeds.modalLifespan')}</span>
+                                    <span className="stat-value">{selectedBreed.lifespan_years ? `${formatNum(selectedBreed.lifespan_years)} ${t('common.yearsFull')}` : t('common.na')}</span>
                                 </div>
                                 <div className="modal-stat-box">
                                     <span className="stat-icon">🌾</span>
-                                    <span className="stat-label">Daily Fodder Amount</span>
-                                    <span className="stat-value">{selectedBreed.daily_food_req || 'N/A'}</span>
+                                    <span className="stat-label">{t('breeds.modalFodder')}</span>
+                                    <span className="stat-value">{formatFoodReq(selectedBreed.daily_food_req, t, formatNum) || t('common.na')}</span>
                                 </div>
                                 <div className="modal-stat-box">
                                     <span className="stat-icon">💰</span>
-                                    <span className="stat-label">Daily Est. Cost</span>
-                                    <span className="stat-value">{selectedBreed.daily_expenditure ? `${selectedBreed.daily_expenditure} / day` : 'N/A'}</span>
+                                    <span className="stat-label">{t('breeds.modalCost')}</span>
+                                    <span className="stat-value">{formatExpenditure(selectedBreed.daily_expenditure, t, formatNum) || t('common.na')}</span>
                                 </div>
                             </div>
 
@@ -533,19 +586,19 @@ function BreedExplorerPage() {
                                 <div className="modal-details-extra" style={{ marginTop: '1.25rem', paddingTop: '1rem', borderTop: '1px solid rgba(255, 255, 255, 0.1)' }}>
                                     {selectedBreed.food_items && (
                                         <div style={{ marginBottom: '0.75rem' }}>
-                                            <strong style={{ color: 'var(--color-primary, #6366f1)' }}>🌾 Recommended Diet & Food Items: </strong>
-                                            <span>{selectedBreed.food_items}</span>
+                                            <strong style={{ color: 'var(--color-primary, #6366f1)' }}>{t('breeds.modalDietItems')} </strong>
+                                            <span>{getBreedFoodItems(selectedBreed, t)}</span>
                                         </div>
                                     )}
                                     {selectedBreed.coat_color_notes && (
                                         <div style={{ marginBottom: '0.75rem' }}>
-                                            <strong style={{ color: 'var(--color-primary, #6366f1)' }}>🎨 Coat & Appearance: </strong>
+                                            <strong style={{ color: 'var(--color-primary, #6366f1)' }}>{t('breeds.modalAppearance')} </strong>
                                             <span>{selectedBreed.coat_color_notes}</span>
                                         </div>
                                     )}
                                     {selectedBreed.horn_notes && (
                                         <div style={{ marginBottom: '0.75rem' }}>
-                                            <strong style={{ color: 'var(--color-primary, #6366f1)' }}>🐂 Horns & Features: </strong>
+                                            <strong style={{ color: 'var(--color-primary, #6366f1)' }}>{t('breeds.modalHorns')} </strong>
                                             <span>{selectedBreed.horn_notes}</span>
                                         </div>
                                     )}
@@ -555,7 +608,7 @@ function BreedExplorerPage() {
 
                         <div className="modal-footer">
                             <button className="btn-secondary" onClick={() => setSelectedBreed(null)}>
-                                Close Explorer View
+                                {t('breeds.closeModal')}
                             </button>
                         </div>
                     </div>

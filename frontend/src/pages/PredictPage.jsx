@@ -2,8 +2,10 @@ import { useState, useRef, useCallback } from 'react';
 import { Trash2, X } from 'lucide-react';
 import { predictFromFile, predictFromURL, predictFromBase64 } from '../services/api';
 import { usePredictionHistory } from '../hooks/usePredictionHistory';
+import { useLanguage } from '../context/LanguageContext';
 
 function PredictPage() {
+    const { t, formatNum } = useLanguage();
     const [activeTab, setActiveTab] = useState('upload');
     const [imagePreview, setImagePreview] = useState(null);
     const [selectedFile, setSelectedFile] = useState(null);
@@ -132,8 +134,8 @@ function PredictPage() {
 
     return (
         <div className="page">
-            <h2 className="section-title">Predict Breed</h2>
-            <p className="section-subtitle">Upload an image, use your camera, or paste a URL to identify the breed.</p>
+            <h2 className="section-title">{t('predict.title')}</h2>
+            <p className="section-subtitle">{t('predict.subtitle')}</p>
 
             <div className="predict-layout">
                 {/* Left: Input panel */}
@@ -141,15 +143,15 @@ function PredictPage() {
                     <div className="input-tabs">
                         <button className={`input-tab ${activeTab === 'upload' ? 'active' : ''}`}
                             onClick={() => { setActiveTab('upload'); stopCamera(); }}>
-                            📁 Upload
+                            📁 {t('predict.tabUpload')}
                         </button>
                         <button className={`input-tab ${activeTab === 'camera' ? 'active' : ''}`}
                             onClick={() => setActiveTab('camera')}>
-                            📷 Camera
+                            📷 {t('predict.tabCamera')}
                         </button>
                         <button className={`input-tab ${activeTab === 'url' ? 'active' : ''}`}
                             onClick={() => { setActiveTab('url'); stopCamera(); }}>
-                            🔗 URL
+                            🔗 {t('predict.tabUrl')}
                         </button>
                     </div>
 
@@ -162,8 +164,8 @@ function PredictPage() {
                                 onDragLeave={() => setDragOver(false)}
                                 onDrop={handleDrop}>
                                 <div className="icon">📤</div>
-                                <p><strong>Click to upload</strong> or drag & drop</p>
-                                <p className="hint">JPG, PNG, WebP — max 10MB</p>
+                                <p>{t('predict.dropText')}</p>
+                                <p className="hint">{t('predict.supportedFormats')}</p>
                             </div>
                             <input ref={fileInputRef} type="file" accept="image/*" hidden onChange={handleFileSelect} />
                         </>
@@ -175,16 +177,15 @@ function PredictPage() {
                             {!cameraActive && !imagePreview && (
                                 <div className="upload-zone" onClick={startCamera}>
                                     <div className="icon">📷</div>
-                                    <p><strong>Click to open camera</strong></p>
-                                    <p className="hint">Allow camera access when prompted</p>
+                                    <p><strong>{t('predict.startCamera')}</strong></p>
                                 </div>
                             )}
                             {cameraActive && (
                                 <div className="camera-container">
                                     <video ref={videoRef} playsInline muted />
                                     <div className="camera-controls">
-                                        <button className="camera-capture-btn" onClick={capturePhoto} title="Capture Photo" />
-                                        <button className="btn-secondary" onClick={stopCamera}>Cancel</button>
+                                        <button className="camera-capture-btn" onClick={capturePhoto} title={t('predict.takePhoto')} />
+                                        <button className="btn-secondary" onClick={stopCamera}>{t('predict.stopCamera')}</button>
                                     </div>
                                 </div>
                             )}
@@ -195,11 +196,11 @@ function PredictPage() {
                     {/* URL tab */}
                     {activeTab === 'url' && (
                         <>
-                            <label style={{ fontSize: '0.9rem', color: 'var(--color-text-secondary)' }}>Image URL</label>
+                            <label style={{ fontSize: '0.9rem', color: 'var(--color-text-secondary)' }}>{t('predict.tabUrl')}</label>
                             <div className="url-input-group">
                                 <input
                                     type="url"
-                                    placeholder="https://example.com/cow-image.jpg"
+                                    placeholder={t('predict.urlPlaceholder')}
                                     value={imageUrl}
                                     onChange={(e) => { setImageUrl(e.target.value); setImagePreview(e.target.value); }}
                                 />
@@ -225,17 +226,16 @@ function PredictPage() {
                     {/* Predict button */}
                     <button className="btn-primary predict-btn" onClick={handlePredict}
                         disabled={!canPredict || loading}>
-                        {loading ? '⏳ Analyzing...' : '🔍 Classify Breed'}
+                        {loading ? t('predict.predictingBtn') : t('predict.predictBtn')}
                     </button>
 
                     {/* Tips */}
                     <div className="tips-box">
-                        <h4>📸 Tips for Better Results</h4>
+                        <h4>{t('predict.qualityTipsTitle')}</h4>
                         <ul style={{ listStyle: 'none', padding: 0 }}>
-                            <li style={{ fontSize: '0.8rem', color: 'var(--color-text-secondary)', marginBottom: '4px' }}>• Use a clear side-view photo of the animal</li>
-                            <li style={{ fontSize: '0.8rem', color: 'var(--color-text-secondary)', marginBottom: '4px' }}>• Ensure good lighting and minimal background clutter</li>
-                            <li style={{ fontSize: '0.8rem', color: 'var(--color-text-secondary)', marginBottom: '4px' }}>• Show the full body including head and horns</li>
-                            <li style={{ fontSize: '0.8rem', color: 'var(--color-text-secondary)' }}>• Avoid photos with multiple animals</li>
+                            <li style={{ fontSize: '0.8rem', color: 'var(--color-text-secondary)', marginBottom: '4px' }}>• {t('predict.tip1')}</li>
+                            <li style={{ fontSize: '0.8rem', color: 'var(--color-text-secondary)', marginBottom: '4px' }}>• {t('predict.tip2')}</li>
+                            <li style={{ fontSize: '0.8rem', color: 'var(--color-text-secondary)' }}>• {t('predict.tip3')}</li>
                         </ul>
                     </div>
                 </div>
@@ -297,7 +297,7 @@ function PredictPage() {
                                     <div className="result-header">
                                         <h3 className="result-breed-name">{result.predicted_breed}</h3>
                                         <span className={`result-badge ${getConfidenceClass(result.confidence)}`}>
-                                            {(result.confidence * 100).toFixed(1)}%
+                                            {formatNum((result.confidence * 100).toFixed(1))}%
                                         </span>
                                     </div>
 
@@ -305,7 +305,7 @@ function PredictPage() {
                                     <div className="confidence-bar-container">
                                         <div className="confidence-bar-label">
                                             <span>Confidence</span>
-                                            <span>{(result.confidence * 100).toFixed(1)}%</span>
+                                            <span>{formatNum((result.confidence * 100).toFixed(1))}%</span>
                                         </div>
                                         <div className="confidence-bar">
                                             <div className="confidence-bar-fill" style={{ width: `${result.confidence * 100}%` }} />
@@ -320,9 +320,9 @@ function PredictPage() {
                                             </h4>
                                             {result.top_k.map((item, idx) => (
                                                 <div className="topk-item" key={idx}>
-                                                    <span className={`topk-rank ${idx === 0 ? 'first' : ''}`}>{idx + 1}</span>
+                                                    <span className={`topk-rank ${idx === 0 ? 'first' : ''}`}>{formatNum(idx + 1)}</span>
                                                     <span className="topk-name">{item.breed}</span>
-                                                    <span className="topk-conf">{(item.confidence * 100).toFixed(1)}%</span>
+                                                    <span className="topk-conf">{formatNum((item.confidence * 100).toFixed(1))}%</span>
                                                 </div>
                                             ))}
                                         </div>
