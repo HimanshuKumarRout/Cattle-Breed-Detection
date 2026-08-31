@@ -1,6 +1,6 @@
 # 🐄 Indigenous Cattle Breed 
 
-A deep learning-based computer vision project for identifying **26 indigenous Indian cattle and buffalo breeds** from images.
+A deep learning-based computer vision project for identifying **34 indigenous Indian cattle and buffalo breeds** from images.
 
 The project provides an end-to-end machine learning pipeline covering data preprocessing, augmentation, model training, evaluation, benchmarking, and a web-based application for breed classification.
 
@@ -33,7 +33,7 @@ The system supports:
 
 # 📊 Dataset and Preprocessing
 
-The dataset contains thousands of images distributed across **26 target classes**.
+The dataset contains thousands of images distributed across **34 target classes**.
 
 To prepare the images for deep learning models, the preprocessing pipeline performs:
 
@@ -350,14 +350,19 @@ The classifier supports **26 indigenous Indian cattle and buffalo breeds**.
 19. Tharparkar
 20. Umblachery
 21. Vechur
-
-## 🐃 Buffalo Breeds
-
-1. Banni
-2. Jaffarabadi
-3. Mehsana
-4. Nagpuri
-5. Nili-Ravi
+22. Banni
+23. Jaffarabadi
+24. Mehsana
+25. Nagpuri
+26. Nili-Ravi
+27. Bihjarpuri
+28. Ghumusuri
+29. Khariar
+30. Motu
+31. Chilika
+32. Kalahandi
+33. Manda
+34. Punganur
 
 ---
 
