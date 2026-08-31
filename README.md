@@ -200,7 +200,7 @@ Make sure the following software is installed:
 ## 1. Clone the Repository
 
 ```bash
-git clone <https://github.com/ChandrakantaMandal/Cattle-Breed-Detection>
+git clone <https://github.com/HimanshuKumarRout/Cattle-Breed-Detection>
 cd Cattle-Breed-Detection
 ```
 
