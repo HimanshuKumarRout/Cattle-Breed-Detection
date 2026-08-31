@@ -21,8 +21,7 @@ This project uses deep learning to classify cattle and buffalo breeds directly f
 
 The system supports:
 
-* 🐄 **21 Indigenous Cattle Breeds**
-* 🐃 **5 Indigenous Buffalo Breeds**
+* 🐄 **34 Indigenous Cattle Breeds**
 * 🧠 Multiple Deep Learning Architectures
 * 📊 Automated Model Evaluation
 * ⚡ Inference Benchmarking
