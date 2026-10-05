@@ -32,7 +32,7 @@ class BreedInfoService:
 
         try:
             try:
-                f = open(csv_path, 'r', encoding='utf-8')
+                f = open(csv_path, 'r', encoding='utf-8-sig')
                 rows = list(csv.DictReader(f))
                 f.close()
             except UnicodeDecodeError:
@@ -67,10 +67,14 @@ class BreedInfoService:
 
     def get_breed(self, breed_name: str) -> Optional[dict]:
         """Get breed info by exact name."""
+        if not self._loaded or not self._data:
+            self.load()
         return self._data.get(breed_name)
 
     def get_breed_summary(self, breed_name: str) -> Optional[dict]:
         """Get condensed breed info for prediction responses."""
+        if not self._loaded or not self._data:
+            self.load()
         info = self._data.get(breed_name)
         if info is None:
             return None
@@ -89,6 +93,8 @@ class BreedInfoService:
 
     def get_all(self) -> list[dict]:
         """Return all breeds."""
+        if not self._loaded or not self._data:
+            self.load()
         return list(self._data.values())
 
     def search(self, query: str) -> list[dict]:

@@ -1,5 +1,14 @@
 const API_BASE_URL = import.meta.env.VITE_API_URL || '';
 
+async function getErrorMessage(response, defaultMsg = 'Prediction failed') {
+  try {
+    const error = await response.json();
+    return error.detail || error.message || defaultMsg;
+  } catch {
+    return `${defaultMsg} (Server returned ${response.status} ${response.statusText || 'Error'})`;
+  }
+}
+
 export async function predictFromFile(file, topK = 3) {
   const formData = new FormData();
   formData.append('file', file);
@@ -10,8 +19,7 @@ export async function predictFromFile(file, topK = 3) {
   });
 
   if (!response.ok) {
-    const error = await response.json();
-    throw new Error(error.detail || 'Prediction failed');
+    throw new Error(await getErrorMessage(response, 'Prediction failed'));
   }
 
   return response.json();
@@ -25,8 +33,7 @@ export async function predictFromURL(url, topK = 3) {
   });
 
   if (!response.ok) {
-    const error = await response.json();
-    throw new Error(error.detail || 'Prediction failed');
+    throw new Error(await getErrorMessage(response, 'Prediction failed'));
   }
 
   return response.json();
@@ -40,8 +47,7 @@ export async function predictFromBase64(base64Image, topK = 3) {
   });
 
   if (!response.ok) {
-    const error = await response.json();
-    throw new Error(error.detail || 'Prediction failed');
+    throw new Error(await getErrorMessage(response, 'Prediction failed'));
   }
 
   return response.json();
