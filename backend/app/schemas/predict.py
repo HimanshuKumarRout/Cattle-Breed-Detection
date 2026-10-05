@@ -21,6 +21,9 @@ class BreedInfo(BaseModel):
     lifespan_years: str
     primary_use: str
     description: str
+    daily_food_req: Optional[str] = None
+    food_items: Optional[str] = None
+    daily_expenditure: Optional[str] = None
 
 
 class PredictResponse(BaseModel):
